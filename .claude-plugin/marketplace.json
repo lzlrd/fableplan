@@ -8,7 +8,7 @@
     {
       "name": "fableplan",
       "source": "./plugins/fableplan",
-      "description": "Plan with Fable 5, execute with Sonnet — an opusplan-style dual-model setup for Claude Code."
+      "description": "Plan with Fable 5, execute with Opus — an opusplan-style dual-model setup for Claude Code."
     }
   ]
 }
