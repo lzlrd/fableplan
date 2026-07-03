@@ -7,8 +7,8 @@ Claude Code ships with a built-in `opusplan` model setting: *"Opus in plan mode,
 ## Install
 
 ```
-/plugin marketplace add bapttiste73/fableplan
-/plugin install fableplan@fableplan
+/plugin marketplace add lzlrd/marketplace
+/plugin install fableplan@lzlrd
 ```
 
 ## Usage
