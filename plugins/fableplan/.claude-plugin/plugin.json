@@ -1,6 +1,6 @@
 {
   "name": "fableplan",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Plan with Fable 5, execute with Opus. Adds /fableplan to toggle an opusplan-style dual-model configuration.",
   "author": {
     "name": "bama73000",
