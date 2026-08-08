@@ -15,8 +15,8 @@ Claude Code ships with a built-in `opusplan` model setting: *"Opus in plan mode,
 
 | Command | Effect |
 |---|---|
-| `/fableplan` | Enable: plan with `claude-fable-5`, execute with Opus (`claude-opus-4-8`) |
-| `/fableplan 1m` | Same, 1M-context on both sides: plan `claude-fable-5[1m]`, execute `claude-opus-4-8[1m]` |
+| `/fableplan` | Enable: plan with `claude-fable-5`, execute with Opus 5 (`claude-opus-5[1m]`) |
+| `/fableplan 1m` | Same, with the 1M-context Fable variant for planning: `claude-fable-5[1m]` |
 | `/fableplan off` | Revert to your previous model configuration |
 
 Restart your Claude Code session after toggling — the model setting is read at startup.
@@ -30,7 +30,7 @@ The skill merges these keys into your global `~/.claude/settings.json` (everythi
   "model": "opusplan",
   "env": {
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-fable-5",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-opus-4-8"
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-opus-5[1m]"
   }
 }
 ```
