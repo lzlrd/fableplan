@@ -12,7 +12,7 @@ The target file is the user's **global** settings: `~/.claude/settings.json`.
 ## Arguments
 
 - *(none)* — enable fableplan with `claude-fable-5`
-- `1m` — enable fableplan with the 1M-context Fable variant for planning: `claude-fable-5[1m]` (execution is always 1M)
+- `1m` — enable fableplan with the 1M-context variants on both sides: `claude-fable-5[1m]` for planning and `claude-opus-5[1m]` for execution
 - `off` — revert to the previous configuration
 
 ## Enabling (no argument, or `1m`)
@@ -22,7 +22,7 @@ The target file is the user's **global** settings: `~/.claude/settings.json`.
    - **Record the prior model so `off` can restore it exactly.** Always write `fableplanPreviousModel` (top-level custom key — extra keys are allowed in settings.json) on enable, overwriting any stale value: set it to the current `model` value if a `model` key exists, or to the sentinel string `"(none)"` if there is no `model` key. Do this even when the current model is already `"opusplan"`, so a pre-existing `opusplan` is restored later rather than deleted.
    - Set `"model": "opusplan"`.
    - Under `"env"` (create the object if missing, preserve its other entries), set `"ANTHROPIC_DEFAULT_OPUS_MODEL"` to `"claude-fable-5"` (or `"claude-fable-5[1m]"` if the argument is `1m`).
-   - Under `"env"`, also set `"ANTHROPIC_DEFAULT_SONNET_MODEL"` to `"claude-opus-5[1m]"` — always the 1M-context variant, regardless of the argument, so execution never silently drops to 200K.
+   - Under `"env"`, also set `"ANTHROPIC_DEFAULT_SONNET_MODEL"` to `"claude-opus-5"` — or to `"claude-opus-5[1m]"` when the argument is `1m`, so execution keeps the 1M-context window too instead of silently dropping to 200K.
 3. Validate that the resulting file is valid JSON.
 4. Tell the user:
    - Fableplan is enabled: plan mode runs on Fable 5, execution runs on Opus.
