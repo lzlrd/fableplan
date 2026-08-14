@@ -1,6 +1,6 @@
 ---
 name: fableplan
-description: Toggle "Fable Plan Mode" — plan with Fable 5, execute with Opus (opusplan-style). Use when the user runs /fableplan, optionally with "off" to revert, or "1m" to use the 1M-context Fable variant.
+description: Toggle "Fable Plan Mode" — plan with Fable 5, execute with Opus (opusplan-style). Use when the user runs /fableplan (optionally with "off" to revert or "1m" for the 1M-context variants), or asks to plan with Fable 5 and execute with Opus, enable or disable fable plan mode, or set up an opusplan-style dual-model configuration.
 ---
 
 # Fableplan — plan with Fable 5, execute with Opus
@@ -23,15 +23,17 @@ The target file is the user's **global** settings: `~/.claude/settings.json`.
    - Set `"model": "opusplan"`.
    - Under `"env"` (create the object if missing, preserve its other entries), set `"ANTHROPIC_DEFAULT_OPUS_MODEL"` to `"claude-fable-5"` (or `"claude-fable-5[1m]"` if the argument is `1m`).
    - Under `"env"`, also set `"ANTHROPIC_DEFAULT_SONNET_MODEL"` to `"claude-opus-5"` — or to `"claude-opus-5[1m]"` when the argument is `1m`, so execution keeps the 1M-context window too instead of silently dropping to 200K.
-3. Validate that the resulting file is valid JSON, then **read it back** and confirm
-   `fableplanPreviousModel` and both `env` keys are present exactly as written. If the sentinel
-   didn't land, say so and stop — without it `off` cannot restore the user's model later.
+3. `off` depends entirely on `fableplanPreviousModel` — if the write failed or the sentinel is
+   missing from the saved file, say so and stop rather than reporting success.
 4. Tell the user:
    - Fableplan is enabled: plan mode runs on Fable 5, execution runs on Opus.
    - They must **restart their Claude Code session** for the model change to take effect.
    - The UI will display "Opus Plan Mode" — that label is cosmetic; plan mode actually runs Fable 5.
    - **Confirm it took** after restarting: check `/status`, or ask the session which model it is
      running. The label is not evidence — see the org-restriction caveat below.
+
+   Keep the confirmation message brief — one line per point, no elaboration beyond what's
+   written here.
 
 ## Disabling (`off`)
 
@@ -43,9 +45,9 @@ The target file is the user's **global** settings: `~/.claude/settings.json`.
    - Else if `fableplanPreviousModel` exists, set `"model"` to that value and delete `fableplanPreviousModel`.
    - Else if the legacy sidecar `~/.claude/fableplan-previous-model` exists and is non-empty: an older version recorded the prior model there. Use its trimmed contents as the value for `"model"`, then delete the file.
    - Else (no sentinel and no sidecar): leave the `"model"` key as-is rather than deleting it, and tell the user to set their model with `/model` if it looks wrong.
-5. Validate JSON and tell the user to restart the session.
+5. Tell the user to restart the session.
 
-## Important caveats (mention them when enabling for the first time)
+## Important caveats (include them when enabling, unless the settings already contained the fableplan keys — i.e. this is a re-enable)
 
 - `ANTHROPIC_DEFAULT_OPUS_MODEL` and `ANTHROPIC_DEFAULT_SONNET_MODEL` are undocumented overrides — a future CLI update could change or remove them.
 - `ANTHROPIC_DEFAULT_FABLE_MODEL` also exists, and Fable is selectable in `/model` on its own. Neither replaces this skill: what's missing is the plan-mode split, and `opusplan` is the only setting that provides one.
